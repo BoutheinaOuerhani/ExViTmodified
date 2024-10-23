@@ -19,7 +19,7 @@ import visdom
 rngsd = 1
 
 parser = argparse.ArgumentParser("HSI")
-parser.add_argument('--Dataset', choices=['Houston, Berlin, Augsburg'], default='Houston', help='dataset to use')
+parser.add_argument('--Dataset', choices=['Houston, Berlin, Augsburg'], default='Augsburg', help='dataset to use')
 parser.add_argument('--Flag_test', choices=['test', 'test'], default='train', help='testing mark')
 parser.add_argument('--Mode', choices=['MViT'], default='MViT', help='mode choice')
 parser.add_argument('--Gpu_id', default='0', help='gpu id')
@@ -271,16 +271,16 @@ cudnn.benchmark = False
 norm_type = 'bandwise'#'pixelwise', 'bandwise'
         
 # prepare data
-if args.Dataset == 'Houston':
+if args.Dataset == 'Augsburg':
     
-    folder_data = './data/HS-LiDAR Houston2013/'
-    data_HS = loadmat(folder_data + 'data_HS_HR.mat')
-    data_DSM1 = loadmat(folder_data + 'data_DSM_HR.mat')
+    folder_data = '/kaggle/input/hs-sar-dsm-augsburg'
+    data_HS = loadmat(folder_data + 'data_HS_LR.mat')
+    data_DSM1 = loadmat(folder_data + 'data_DSM.mat')
     label_TR = loadmat(folder_data + 'TrainImage.mat')
     label_TE = loadmat(folder_data + 'TestImage.mat')
 
-    input_HS = mynorm(data_HS['data_HS_HR'], norm_type) #(349, 1905, 144)
-    input_DSM1 = np.expand_dims(data_DSM1['DSM'], axis=-1) #(349, 1905, 1)
+    input_HS = mynorm(data_HS['data_HS_LR'], norm_type) #(349, 1905, 144)
+    input_DSM1 = np.expand_dims(data_DSM1['data_DSM'], axis=-1) #(349, 1905, 1)
     
     height, width, band1 = input_HS.shape    
     _, _, band2 = input_DSM1.shape   
@@ -296,7 +296,7 @@ label_TE = label_TE['TestImage']
 
 num_classes = np.max(label_TR)
 
-folder_log = './log/HS-LiDAR Houston2013/' + str(args.Patches) + '/'
+folder_log = '.kaggle/log/hs-sar-dsm-augsburg/' + str(args.Patches) + '/'
 
 if not os.path.exists(folder_log):
     os.makedirs(folder_log)
