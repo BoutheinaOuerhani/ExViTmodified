@@ -273,7 +273,7 @@ norm_type = 'bandwise'#'pixelwise', 'bandwise'
 # prepare data
 if args.Dataset == 'Augsburg':
     
-    folder_data = '/kaggle/input/hs-sar-dsm-augsburg'
+    folder_data = '/kaggle/input/hs-sar-dsm-augsburg/'
     data_HS = loadmat(folder_data + 'data_HS_LR.mat')
     data_DSM1 = loadmat(folder_data + 'data_DSM.mat')
     label_TR = loadmat(folder_data + 'TrainImage.mat')
